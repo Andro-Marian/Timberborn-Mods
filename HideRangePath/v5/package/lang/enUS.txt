@@ -1,0 +1,6 @@
+﻿ID,Text,Comment
+HideRangePath, Hide Range Path,
+HideRangePath.ToggleKey, Toggle,
+HideRangePath.HoldKey, Holding,
+HideRangePath.Show, Show range,
+HideRangePath.Hide, Hide range,
