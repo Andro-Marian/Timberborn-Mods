@@ -1,0 +1,36 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.1</TargetFramework>
+    <AssemblyName>HideRangePath</AssemblyName>
+    <Description>Hide range path</Description>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <LangVersion>8</LangVersion>
+    <ReleaseVersion>1.7</ReleaseVersion>
+    <NoWarn>NU1701</NoWarn>
+    <Nullable>disable</Nullable>
+    <AssemblyVersion>0.4.0.0</AssemblyVersion>
+    <GameDirectory>E:\Games\Timberborn\BepInEx\plugins</GameDirectory>
+    <PackageVersion>0.0.0.0</PackageVersion>
+  </PropertyGroup>
+
+  <Target Name="Replace" AfterTargets="CoreCompile">
+    <WriteLinesToFile File="$(ProjectDir)package/mod.json" Encoding="Unicode" Overwrite="true" Lines="{&#xA;  &quot;Name&quot;: &quot;$(AssemblyName)&quot;,&#xA;  &quot;Version&quot;: &quot;$(AssemblyVersion)&quot;,&#xA;  &quot;UniqueId&quot;: &quot;com.github.andro-marian.$(AssemblyName)&quot;,&#xA;  &quot;MinimumApiVersion&quot;: &quot;0.6.1&quot;,&#xA;  &quot;MinimumGameVersion&quot;: &quot;0.4.9.3&quot;,&#xA;  &quot;EntryDll&quot;: &quot;HideRangePath.dll&quot;&#xA;}" />
+  </Target>
+  <Target Name="CopyDLLs" AfterTargets="AfterBuild">
+    <Message Text="Executing CopyDLLs task" Importance="high" />
+    <Copy SourceFiles="$(TargetDir)$(AssemblyName).dll" DestinationFolder="$(GameDirectory)\$(AssemblyName)" SkipUnchangedFiles="true" ContinueOnError="true" />
+    <Copy SourceFiles="$(ProjectDir)package/mod.json" DestinationFolder="$(GameDirectory)\$(AssemblyName)" SkipUnchangedFiles="true" ContinueOnError="true" />
+    <Copy SourceFiles="$(ProjectDir)package/icon.png" DestinationFolder="$(GameDirectory)\$(AssemblyName)" SkipUnchangedFiles="true" ContinueOnError="true" />
+    <Copy SourceFiles="$(ProjectDir)package/lang/enUS.txt" DestinationFolder="$(GameDirectory)\$(AssemblyName)\lang" SkipUnchangedFiles="true" ContinueOnError="true" />
+    <Message Text="Copied build files" Importance="high" />
+  </Target>
+  
+  <ItemGroup Condition="'$(TargetFramework.TrimEnd(`0123456789`))' == 'net'">
+    <PackageReference Include="Microsoft.NETFramework.ReferenceAssemblies" Version="1.0.2" PrivateAssets="all" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="TimberApi" Version="0.6.1" />
+    <PackageReference Include="System.Collections.Immutable" Version="6.0.0" />
+  </ItemGroup>
+</Project>
